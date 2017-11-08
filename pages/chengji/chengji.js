@@ -29,21 +29,6 @@ Page({
       }
     });
   },
-  createSimulationData: function () {
-    var categories = [];
-    var data = [];
-    for (var i = 0; i < 4; i++) {
-      categories.push('term-' + (i + 1));
-      
-    }
-    // data[4] = null;
-    return {
-      categories: categories,
-      data: data
-    }
-  },
-
-
 
   /**
    * 生命周期函数--监听页面加载
@@ -52,90 +37,20 @@ Page({
     var windowWidth = wx.getSystemInfoSync().windowWidth;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     
-    var pie_chart_data = this.get_pie_chart_data()
+    var data = this.get_avg_data()
+    var pie_chart_data = this.get_pie_chart_data(data)
+    var line_data = this.get_line_chart_data(data)
 
     this.create_gpa_chart(pie_chart_data.GPAs, pie_chart_data.avg_GPA)
     this.create_avg_chart(pie_chart_data.avgScores, pie_chart_data.avg_score)
-
-    var allChart = new wxCharts({
-      animation: true,
-      canvasId: 'allCanvas',
-      type: 'ring',
-
-      title: {
-        name: '82',
-        color: '#7cb5ec',
-        fontSize: 20
-      },
-      subtitle: {
-        name: '总学分',
-        color: '#666666',
-        fontSize: 12
-      },
-      series: [{
-        name: 'term1',
-        data: 24,
-        stroke: false
-      }, {
-          name: 'term2',
-        data: 25,
-        stroke: false
-      }, {
-          name: 'term3',
-        data: 23,
-        stroke: false
-      }, {
-          name: 'term4',
-        data: 21,
-        stroke: false
-      }],
-      disablePieStroke: true,
-      width: windowWidth/3,
-      height: windowWidth / 3,
-      dataLabel: false,
-      legend: false,
-      //background: '#f5f5f5',
-      padding: 0
-    });
-
-    var simulationData = this.createSimulationData();
-    lineChart = new wxCharts({
-      canvasId: 'lineCanvas',
-      type: 'line',
-      categories: simulationData.categories,
-      animation: true,
-      // background: '#f5f5f5',
-      series: [{
-        name: 'GPA',
-        data: [4,3.2,2.7,3.4],
-        format: function (val, name) {
-          return val.toFixed(2);
-        }
-      }, {
-        name: '平均分',
-        data: [82, 83, 85, 86],
-        format: function (val, name) {
-          return val.toFixed(2);
-        }
-      }],
-      xAxis: {
-        disableGrid: true
-      },
-      
-      width: windowWidth,
-      height: 200,
-      dataLabel: false,
-      dataPointShape: true,
-      extra: {
-        lineStyle: 'curve'
-      }
-    });
+    this.create_credit_chart(pie_chart_data.credits, pie_chart_data.sum_credits)
+    this.create_line_chart(line_data)
   },
 
-  get_pie_chart_data: function () {
+  get_avg_data: function(){
     var scores = wx.getStorageSync('scores');
     console.log(scores)
-
+    var names = []
     var GPAs = []
     var avgScores = []
     var credits = []
@@ -144,47 +59,38 @@ Page({
     var avg_score = 0
     var sum_credits = 0
 
-    
     for (var index in scores) {
       var data = scores[index]
-      GPAs[index] = {
-        name: data[0][0],
-        data: 0,
-        stroke: false,
-      }
-      avgScores[index] = {
-        name: data[0][0],
-        data: 0,
-        stroke: false,
-      }
-      credits[index] = {
-        name: data[0][0],
-        data: 0,
-        stroke: false,
-      }
+      names[index] = data[0][0]
+      GPAs[index] = 0
+      avgScores[index] = 0
+      credits[index] = 0
 
       var weights = 0
       for (var i in data) {
         var course = data[i]
         if (course[3] == null) continue
-        GPAs[index].data += parseFloat(course[5]) * parseFloat(course[9])
-        avgScores[index].data += parseFloat(course[5]) * parseFloat(course[8])
-        credits[index].data += parseFloat(course[5])
+        if(course[8] == "优秀")course[8] = 85
+        if(course[8] == "不及格")course[8] = 59
+        GPAs[index] += parseFloat(course[5]) * parseFloat(course[9])
+        avgScores[index] += parseFloat(course[5]) * parseFloat(course[8])
+        credits[index] += parseFloat(course[5])
         weights += parseFloat(course[5])
 
       }
-      GPAs[index].data = GPAs[index].data / weights
-      avgScores[index].data = avgScores[index].data / weights
+      GPAs[index] = GPAs[index] / weights
+      avgScores[index] = avgScores[index] / weights
 
-      avg_GPA += GPAs[index].data
-      avg_score += avgScores[index].data
-      sum_credits += credits[index].data
+      avg_GPA += GPAs[index]
+      avg_score += avgScores[index]
+      sum_credits += credits[index]
     }
 
     avg_GPA = avg_GPA / GPAs.length
     avg_score = avg_score / avgScores.length
 
-    var pie_chart_data = {
+    var data = {
+      names: names,
       GPAs: GPAs,
       avg_GPA: avg_GPA,
       avgScores: avgScores,
@@ -192,9 +98,63 @@ Page({
       credits: credits,
       sum_credits: sum_credits,
     }
+    console.log(data)
+    return data
+  },
+
+  get_pie_chart_data: function (data) {
+    var names = data.names
+    var GPAs = []
+    var avgScores = []
+    var credits = []
+
+    for (var index in names) {
+      var name = names[index]
+      GPAs[index] = {
+        name: name,
+        data: data.GPAs[index],
+        stroke: false,
+      }
+      avgScores[index] = {
+        name: name,
+        data: data.avgScores[index],
+        stroke: false,
+      }
+      credits[index] = {
+        name: name,
+        data: data.credits[index],
+        stroke: false,
+      }
+    }
+
+    var pie_chart_data = {
+      GPAs: GPAs,
+      avg_GPA: data.avg_GPA,
+      avgScores: avgScores,
+      avg_score: data.avg_score,
+      credits: credits,
+      sum_credits: data.sum_credits,
+    }
 
     console.log(pie_chart_data)
     return pie_chart_data;
+  },
+
+  get_line_chart_data: function (data) {
+    var GPAs = []
+    var categories = []
+
+    for (var index in data.GPAs){
+      GPAs[index] = data.GPAs[index] * 25
+    }
+    for (var i in data.names){
+      categories[i] = '第' + (parseInt(i)+1).toString() + '学期'
+    }
+    return{
+      categories: categories,
+      gpa_data: GPAs,
+      score_data: data.avgScores,
+    }
   },
 
   create_gpa_chart: function(GPAs, avg_GPA){
@@ -212,7 +172,7 @@ Page({
       title: {
         name: text,
         color: '#7cb5ec',
-        fontSize: 20
+        fontSize: 18
       },
       subtitle: {
         name: 'GPA',
@@ -245,7 +205,7 @@ Page({
       title: {
         name: text,
         color: '#7cb5ec',
-        fontSize: 20
+        fontSize: 18
       },
       subtitle: {
         name: '平均分',
@@ -261,6 +221,40 @@ Page({
       // background: '#f5f5f5',
       padding: 0
     });
+  },
+
+  create_credit_chart: function(credits, sum_credits){
+    var windowWidth = wx.getSystemInfoSync().windowWidth;
+    var windowHeight = wx.getSystemInfoSync().windowHeight;
+
+    var serise = credits.lenght ? credits : this.get_tmp_series()
+    var text = sum_credits ? sum_credits.toFixed(1).toString() : "99"
+
+    var credit_chart = new wxCharts({
+      animation: true,
+      canvasId: 'allCanvas',
+      type: 'ring',
+
+      title: {
+        name: text,
+        color: '#7cb5ec',
+        fontSize: 18
+      },
+      subtitle: {
+        name: '总学分',
+        color: '#666666',
+        fontSize: 12
+      },
+      series: serise,
+      disablePieStroke: true,
+      width: windowWidth / 3,
+      height: windowWidth / 3,
+      dataLabel: false,
+      legend: false,
+      //background: '#f5f5f5',
+      padding: 0
+    });
+
   },
 
   get_tmp_series: function(){
@@ -283,7 +277,59 @@ Page({
     }]
     return series
   },
+
+  createSimulationData: function () {
+    var categories = [];
+    var score_data = [82, 83, 85, 86];
+    var gpa_data = [100, 85, 78, 92];
+    for (var i = 0; i < 4; i++) {
+      categories.push('term-' + (i + 1));
+    }
+    return {
+      categories: categories,
+      score_data: score_data,
+      gpa_data: gpa_data,
+    }
+  },
   
+  create_line_chart: function(line_data){
+    var windowWidth = wx.getSystemInfoSync().windowWidth;
+    var windowHeight = wx.getSystemInfoSync().windowHeight;
+
+    var data = line_data.categories.length ? line_data : this.createSimulationData();
+    console.log(line_data)
+    lineChart = new wxCharts({
+      canvasId: 'lineCanvas',
+      type: 'line',
+      categories: data.categories,
+      animation: true,
+      // background: '#f5f5f5',
+      series: [{
+        name: 'GPA',
+        data: data.gpa_data,
+        format: function (val, name) {
+          return (val/25).toFixed(2);
+        }
+      }, {
+        name: '平均分',
+        data: data.score_data,
+        format: function (val, name) {
+          return val.toFixed(2);
+        }
+      }],
+      xAxis: {
+        disableGrid: true
+      },
+
+      width: windowWidth,
+      height: 200,
+      dataLabel: false,
+      dataPointShape: true,
+      extra: {
+        lineStyle: 'curve'
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
