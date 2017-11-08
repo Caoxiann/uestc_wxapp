@@ -51,85 +51,12 @@ Page({
   onLoad: function (options) {
     var windowWidth = wx.getSystemInfoSync().windowWidth;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
-    console.log(windowWidth)
-    var GPAs = this.getGPAs()
-    var avg_gpa = this.get_avg_GPA(GPAs)
-    var text
-    var series
-    if(GPAs.length){
-      text = avg_gpa.toFixed(2).toString()
-      series = GPAs
-    }else{
-      text = "99"
-      series = this.get_tmp_series()
-    }
     
-    var gpaChart = new wxCharts({
-      animation: true,
-      canvasId: 'gpaCanvas',
-      type: 'ring',
-      
-      title: {
-        //name: parseFloat(this.get_avg_GPA()),
-        name: text,
-        color: '#7cb5ec',
-        fontSize: 20
-      },
-      subtitle: {
-        name: 'GPA',
-        color: '#666666',
-        fontSize: 12
-      },
-      series: series,
-      disablePieStroke: true,
-      width: windowWidth/3,
-      height: windowWidth / 3,
-      dataLabel: false,
-      legend: false,
-      //background: '#f5f5f5',
-      padding: 0
-    });
+    var pie_chart_data = this.get_pie_chart_data()
 
-    var avgChart = new wxCharts({
-      animation: true,
-      canvasId: 'avgCanvas',
-      type: 'ring',
+    this.create_gpa_chart(pie_chart_data.GPAs, pie_chart_data.avg_GPA)
+    this.create_avg_chart(pie_chart_data.avgScores, pie_chart_data.avg_score)
 
-      title: {
-        name: '88',
-        color: '#7cb5ec',
-        fontSize: 20
-      },
-      subtitle: {
-        name: '平均分',
-        color: '#666666',
-        fontSize: 12
-      },
-      series: [{
-        name: 'term1',
-        data: 82,
-        stroke: false
-      }, {
-          name: 'term2',
-        data: 88,
-        stroke: false
-      }, {
-          name: 'term3',
-        data: 89,
-        stroke: false
-      }, {
-          name: 'term4',
-        data: 88,
-        stroke: false
-      }],
-      disablePieStroke: true,
-      width: windowWidth/3,
-      height: windowWidth/3,
-      dataLabel: false,
-      legend: false,
-     // background: '#f5f5f5',
-      padding: 0
-    });
     var allChart = new wxCharts({
       animation: true,
       canvasId: 'allCanvas',
@@ -205,35 +132,135 @@ Page({
     });
   },
 
-  getGPAs: function(){
+  get_pie_chart_data: function () {
     var scores = wx.getStorageSync('scores');
+    console.log(scores)
+
     var GPAs = []
-    for (var index in scores){
+    var avgScores = []
+    var credits = []
+
+    var avg_GPA = 0
+    var avg_score = 0
+    var sum_credits = 0
+
+    
+    for (var index in scores) {
       var data = scores[index]
       GPAs[index] = {
         name: data[0][0],
         data: 0,
         stroke: false,
       }
-      var weights = 0
-      for (var i in data){
-        var course = data[i]
-        if(course[3]==null)continue
-        GPAs[index].data += parseFloat(course[5]) * parseFloat(course[9])
-        weights += parseFloat(course[5])
+      avgScores[index] = {
+        name: data[0][0],
+        data: 0,
+        stroke: false,
       }
-      GPAs[index].data = GPAs[index].data/weights
+      credits[index] = {
+        name: data[0][0],
+        data: 0,
+        stroke: false,
+      }
+
+      var weights = 0
+      for (var i in data) {
+        var course = data[i]
+        if (course[3] == null) continue
+        GPAs[index].data += parseFloat(course[5]) * parseFloat(course[9])
+        avgScores[index].data += parseFloat(course[5]) * parseFloat(course[8])
+        credits[index].data += parseFloat(course[5])
+        weights += parseFloat(course[5])
+
+      }
+      GPAs[index].data = GPAs[index].data / weights
+      avgScores[index].data = avgScores[index].data / weights
+
+      avg_GPA += GPAs[index].data
+      avg_score += avgScores[index].data
+      sum_credits += credits[index].data
     }
-    return GPAs;
+
+    avg_GPA = avg_GPA / GPAs.length
+    avg_score = avg_score / avgScores.length
+
+    var pie_chart_data = {
+      GPAs: GPAs,
+      avg_GPA: avg_GPA,
+      avgScores: avgScores,
+      avg_score: avg_score,
+      credits: credits,
+      sum_credits: sum_credits,
+    }
+
+    console.log(pie_chart_data)
+    return pie_chart_data;
   },
 
-  get_avg_GPA: function(GPAs){
-    console.log(GPAs)
-    var avg = 0
-    for (var i in GPAs){
-      avg += GPAs[i].data
-    }
-    return avg/GPAs.length
+  create_gpa_chart: function(GPAs, avg_GPA){
+    var windowWidth = wx.getSystemInfoSync().windowWidth;
+    var windowHeight = wx.getSystemInfoSync().windowHeight;
+
+    var series = GPAs.lenght ? GPAs : this.get_tmp_series()
+    var text = avg_GPA ? avg_GPA.toFixed(2).toString() : "99"
+
+    var gpaChart = new wxCharts({
+      animation: true,
+      canvasId: 'gpaCanvas',
+      type: 'ring',
+
+      title: {
+        name: text,
+        color: '#7cb5ec',
+        fontSize: 20
+      },
+      subtitle: {
+        name: 'GPA',
+        color: '#666666',
+        fontSize: 12
+      },
+      series: series,
+      disablePieStroke: true,
+      width: windowWidth / 3,
+      height: windowWidth / 3,
+      dataLabel: false,
+      legend: false,
+      //background: '#f5f5f5',
+      padding: 0
+    });
+  },
+
+  create_avg_chart: function(avgScores, avg_score){
+    var windowWidth = wx.getSystemInfoSync().windowWidth;
+    var windowHeight = wx.getSystemInfoSync().windowHeight;
+
+    var serise = avgScores.lenght? avgScores : this.get_tmp_series()
+    var text = avg_score? avg_score.toFixed(1).toString() : "99"
+
+    var avgChart = new wxCharts({
+      animation: true,
+      canvasId: 'avgCanvas',
+      type: 'ring',
+
+      title: {
+        name: text,
+        color: '#7cb5ec',
+        fontSize: 20
+      },
+      subtitle: {
+        name: '平均分',
+        color: '#666666',
+        fontSize: 12
+      },
+      series: serise,
+      disablePieStroke: true,
+      width: windowWidth / 3,
+      height: windowWidth / 3,
+      dataLabel: false,
+      legend: false,
+      // background: '#f5f5f5',
+      padding: 0
+    });
   },
 
   get_tmp_series: function(){
@@ -262,7 +289,6 @@ Page({
    */
   onReady: function () {
     var windowWidth = wx.getSystemInfoSync().windowWidth;
-
 
     columnChart = new wxCharts({
       canvasId: 'columnCanvas',
