@@ -1,0 +1,92 @@
+/* pages/cehngji/chengji.wxss */
+page {
+    padding: 0;
+    margin: 0 auto;
+    font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif; 
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.container{
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.header {
+    margin: 0;
+    height: 100rpx;
+    flex-direction: row;
+    width: 100%;
+    background-color: rgb(0, 44, 103);
+    color: #fff;
+    font-size: 32rpx;
+ 
+}
+
+.header text {
+  display: inline-block;
+  line-height: 100rpx;
+  margin-left: 40rpx;
+}
+
+.wrap{
+  width: 100%;
+}
+
+.canvas1 {
+    display: inline-block;
+    height: 250rpx;
+    width: 33%;
+}
+.canvas2{
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  margin: 20rpx auto;
+  width: 100%;
+  height: 400rpx;
+}
+.small{
+  padding-bottom: 32rpx ;
+  border-bottom: 2rpx solid #dcf;
+}
+
+
+.chart-2{
+  width: 100%;
+   margin: 48rpx auto;
+     padding-bottom: 16rpx ;
+  border-bottom: 2rpx solid #dcf;
+}
+.linename{
+  display: flex;
+  flex: 1;
+  justify-content: center;
+padding-left: 24rpx;
+ font-size: 32rpx;
+}
+
+.chart-3{
+  width: 100%;
+   margin: 48rpx auto;
+
+}
+.columnname{
+  display: flex;
+  flex: 1;
+  justify-content: center;
+padding-left: 24rpx;
+ font-size: 32rpx;
+}
+
+.canvas3{
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20rpx auto;
+  width: 100%;
+  height: 400rpx;
+}

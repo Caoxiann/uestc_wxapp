@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/chengji/chengji",
+    "pages/me/me",
+    "pages/me/daoru/daoru",
+    "pages/index/detail/detail",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "课程表",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#ff6138",
+    "list": [
+      {
+        "selectedIconPath": "images/kecheng1.png",
+        "iconPath": "images/kecheng0.png",
+        "pagePath": "pages/index/index",
+        "text": "课程"
+      },
+      {
+        "selectedIconPath": "images/chengji1.png",
+        "iconPath": "images/chengji0.png",
+        "pagePath": "pages/chengji/chengji",
+        "text": "成绩"
+      },
+      {
+        "selectedIconPath": "images/my1.png",
+        "iconPath": "images/my0.png",
+        "pagePath": "pages/me/me",
+        "text": "我"
+      }
+    ]
+  }
+}

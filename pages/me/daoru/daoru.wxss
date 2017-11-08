@@ -1,0 +1,22 @@
+/* pages/me/daoru/daoru.wxss */
+
+.title{
+  margin: 80rpx 0;
+}
+input{
+  height: 72rpx;
+  margin: 40rpx 0;
+  background-color:  #ebebeb;
+  border-radius: 5rpx;
+  border: 2rpx solid #c0c0c0;
+}
+.dr{
+  color: #ff6138;
+  border: 2rpx solid #ff6138;
+  margin-top: 100rpx;
+}
+.dr-hover{
+   background-color: #ff6138;
+   color: #fff;
+  margin-top: 100rpx;
+}

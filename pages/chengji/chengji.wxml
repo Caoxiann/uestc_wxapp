@@ -1,0 +1,37 @@
+<!--pages/cehngji/chengji.wxml-->
+<view class='container'>
+    <view class='header'>
+       
+        <text>欢迎！{{name}},{{num}}</text>
+    </view>
+    <view class='wrap'>
+        
+            <view class='small'>
+                <view class='chart-1'>
+                    
+                        <canvas canvas-id="gpaCanvas" class="canvas1" ></canvas>
+                   
+                  
+                        <canvas canvas-id="avgCanvas" class="canvas1" ></canvas>
+                   
+                   
+                        <canvas canvas-id="allCanvas" class="canvas1" ></canvas>
+                  
+                </view>
+            </view>
+                <view class="chart-2">
+                <view class='linename'><text>成绩走向趋势图</text></view>
+                        <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas2" bindtouchstart="touchHandler"></canvas>
+                </view>
+
+                <view class="chart-3">
+                <view class='columnname'><text>重修指数排行榜</text></view>
+                        <canvas canvas-id="columnCanvas" class="canvas3" ></canvas>
+                </view>
+           
+
+          
+
+
+    </view>
+</view>

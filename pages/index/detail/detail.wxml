@@ -1,0 +1,12 @@
+<!--pages/index/detail/detail.wxml-->
+<view class='container'>
+    <view class='title'>
+        <text class='name'>{{type}}</text>
+    </view>
+    <view class='detail'>
+        <view class='in'><text class='rm'>教室：{{room}}</text></view>
+        <view class='in'><text class='rm'>周数：{{week}}</text></view>
+        <view class='in'><text class='rm'>节数：{{time}}</text></view>
+        <view class='in'><text class='rm'>老师：{{teacher}}</text></view>
+    </view>
+</view>

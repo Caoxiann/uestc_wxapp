@@ -1,0 +1,32 @@
+/* pages/index/detail/detail.wxss */
+page{
+
+   background-color: #ebebeb; 
+
+}
+.container{
+  font-size: 28rpx;
+  height: 100%;
+  display: block;
+   padding: 0px;
+}
+.title{
+  padding-left: 60rpx;
+      background-color: #fff;
+          margin: 60rpx 0;
+}
+.name{
+   display: block;
+
+    line-height: 160rpx;
+}
+.in{
+   padding-left: 40rpx;
+      background-color: #fff;
+          margin: 0;
+          border:2rpx solid #ebebeb;
+}
+.rm{
+  display: block;
+  line-height: 112rpx;
+}

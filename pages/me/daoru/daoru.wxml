@@ -1,0 +1,11 @@
+<!--pages/me/daoru/daoru.wxml-->
+<view class='container'>
+    <view class='usermotto'>
+        <text class="user-motto">{{motto}}</text>  
+      <view class='title'>
+        账号：  <input type="text" bindinput="userNameInput" value="{{userName}}"/>  
+        密码：  <input type="text" bindinput="userPasswordInput" password="true" value="{{userPassword}}"/>  
+        </view>
+        <button class='dr' hover-class="dr-hover" bindtap="daoru">导入课表</button>  
+    </view>
+</view>
