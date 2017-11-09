@@ -34,17 +34,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var windowWidth = wx.getSystemInfoSync().windowWidth;
-    var windowHeight = wx.getSystemInfoSync().windowHeight;
     
-    var data = this.get_avg_data()
-    var pie_chart_data = this.get_pie_chart_data(data)
-    var line_data = this.get_line_chart_data(data)
-
-    this.create_gpa_chart(pie_chart_data.GPAs, pie_chart_data.avg_GPA)
-    this.create_avg_chart(pie_chart_data.avgScores, pie_chart_data.avg_score)
-    this.create_credit_chart(pie_chart_data.credits, pie_chart_data.sum_credits)
-    this.create_line_chart(line_data)
   },
 
   get_avg_data: function(){
@@ -71,6 +61,7 @@ Page({
         var course = data[i]
         if (course[3] == null) continue
         if(course[8] == "优秀")course[8] = 85
+        if(course[8] == "及格")course[8] = 75
         if(course[8] == "不及格")course[8] = 59
         GPAs[index] += parseFloat(course[5]) * parseFloat(course[9])
         avgScores[index] += parseFloat(course[5]) * parseFloat(course[8])
@@ -161,7 +152,7 @@ Page({
     var windowWidth = wx.getSystemInfoSync().windowWidth;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
 
-    var series = GPAs.lenght ? GPAs : this.get_tmp_series()
+    var series = GPAs.length ? GPAs : this.get_tmp_series()
     var text = avg_GPA ? avg_GPA.toFixed(2).toString() : "99"
 
     var gpaChart = new wxCharts({
@@ -194,7 +185,7 @@ Page({
     var windowWidth = wx.getSystemInfoSync().windowWidth;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
 
-    var serise = avgScores.lenght? avgScores : this.get_tmp_series()
+    var serise = avgScores.length? avgScores : this.get_tmp_series()
     var text = avg_score? avg_score.toFixed(1).toString() : "99"
 
     var avgChart = new wxCharts({
@@ -227,7 +218,7 @@ Page({
     var windowWidth = wx.getSystemInfoSync().windowWidth;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
 
-    var serise = credits.lenght ? credits : this.get_tmp_series()
+    var serise = credits.length ? credits : this.get_tmp_series()
     var text = sum_credits ? sum_credits.toFixed(1).toString() : "99"
 
     var credit_chart = new wxCharts({
@@ -369,7 +360,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    var updated = wx.getStorageSync("update_scores")
+    var scores = wx.getStorageSync("scores")
+    if (updated && scores){
+      var windowWidth = wx.getSystemInfoSync().windowWidth;
+      var windowHeight = wx.getSystemInfoSync().windowHeight;
+
+      var data = this.get_avg_data()
+      var pie_chart_data = this.get_pie_chart_data(data)
+      var line_data = this.get_line_chart_data(data)
+
+      this.create_gpa_chart(pie_chart_data.GPAs, pie_chart_data.avg_GPA)
+      this.create_avg_chart(pie_chart_data.avgScores, pie_chart_data.avg_score)
+      this.create_credit_chart(pie_chart_data.credits, pie_chart_data.sum_credits)
+      this.create_line_chart(line_data)
+      
+      wx.setStorageSync("update_scores", false)
+    }
   },
 
   /**
