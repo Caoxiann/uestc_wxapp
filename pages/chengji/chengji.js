@@ -3,13 +3,7 @@ var wxCharts = require('wxcharts-min.js');
 var app = getApp();
 var lineChart = null;
 var columnChart = null;
-var chartData = {
-  main: {
-    data: [15, 12, 10, 10,8],
-    categories: ['微积分', '数学建模', 'c语言', '线性代数','政治经济学']
-  },
-  
-};
+
 Page({
   /**
    * 页面的初始数据
@@ -34,7 +28,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    wx.setStorageSync("update_scores", true)
   },
 
   get_avg_data: function(){
@@ -44,7 +38,8 @@ Page({
     var GPAs = []
     var avgScores = []
     var credits = []
-
+    var restudy = []
+    
     var avg_GPA = 0
     var avg_score = 0
     var sum_credits = 0
@@ -321,31 +316,76 @@ Page({
       }
     });
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+
+  get_restudy_data: function(){
+    var data = wx.getStorageSync('scores');
+    var d = {name:"d", weight:0}
+    var restudy = [d, d, d, d, d]
+    var compare = function (prop) {
+      return function (obj1, obj2) {
+        var val1 = obj1[prop];
+        var val2 = obj2[prop]; if (val1 > val2) {
+          return -1;
+        } else if (val1 < val2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    }
+    for (var index in data){
+      for (var i in data[index]){
+        var course = data[index][i]
+        if (course[3] == null) continue
+        var weight = (4.0 - parseFloat(course[9])) * parseFloat(course[5])
+        if (weight >= restudy[4].weight){
+          restudy[4] = {name: course[3], weight: weight}
+          restudy.sort(compare("weight"))
+        }
+      }
+    }
+    var names = []
+    var weights = []
+    for (var i in restudy){
+      names.push(restudy[i].name)
+      weights.push(restudy[i].weight)
+    }
+    return {
+      categories: names,
+      data: weights,
+    }
+  },
+
+  get_tmp_restudy_data(){
+    return {
+        data: [15, 12, 10, 10, 8],
+        categories: ['微积分', '数学建模', 'c语言', '线性代数', '政治经济学']
+    }
+  },
+
+  create_restudy_chart: function(restudy_data){
     var windowWidth = wx.getSystemInfoSync().windowWidth;
 
+    var data = restudy_data.categories.length? restudy_data: this.get_tmp_restudy_data()
     columnChart = new wxCharts({
       canvasId: 'columnCanvas',
       type: 'column',
       animation: true,
-      categories: chartData.main.categories,
+      categories: data.categories,
       series: [{
-        name: '推荐指数:(4.0-GPA)*学分',
-        data: chartData.main.data,
+        name: '推荐指数:(4.0-绩点)*学分',
+        data: data.data,
         format: function (val, name) {
-          return val.toFixed(2) ;
+          return val.toFixed(2);
         }
       }],
       yAxis: {
         format: function (val) {
-          return val ;
+          return val;
         },
         min: 0
       },
-      
+
       extra: {
         column: {
           width: 24
@@ -354,6 +394,13 @@ Page({
       width: windowWidth,
       height: 200,
     });
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    
   },
 
   /**
@@ -369,11 +416,13 @@ Page({
       var data = this.get_avg_data()
       var pie_chart_data = this.get_pie_chart_data(data)
       var line_data = this.get_line_chart_data(data)
+      var restudy_data = this.get_restudy_data()
 
       this.create_gpa_chart(pie_chart_data.GPAs, pie_chart_data.avg_GPA)
       this.create_avg_chart(pie_chart_data.avgScores, pie_chart_data.avg_score)
       this.create_credit_chart(pie_chart_data.credits, pie_chart_data.sum_credits)
       this.create_line_chart(line_data)
+      this.create_restudy_chart(restudy_data)
       
       wx.setStorageSync("update_scores", false)
     }
