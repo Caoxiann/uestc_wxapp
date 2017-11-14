@@ -38,16 +38,27 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        wx.setStorage({
-          key: 'username',
-          data:that.data.userName,
-        })
-        wx.setStorage({
-          key: 'password',
-          data:that.data.userPassword,
-        })
-        that.get_all_score();
-        
+        if (res.statusCode == 200){
+          wx.setStorage({
+            key: 'username',
+            data: that.data.userName,
+          })
+          wx.setStorage({
+            key: 'password',
+            data: that.data.userPassword,
+          })
+          wx.setStorage({
+            key: 'ch-name',
+            data: res.data,
+          })
+          that.get_all_score();
+        }else{
+          wx.hideLoading();
+          wx.showModal({
+            title: '登录失败',
+            content: '请检查用户名和密码',
+          })
+        }
       },
       fail: function (res) {
         console.log(res.data);

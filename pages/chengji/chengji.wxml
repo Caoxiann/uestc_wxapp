@@ -2,7 +2,7 @@
 <view class='container'>
     <view class='header'>
        
-        <text>欢迎！{{name}},{{num}}</text>
+        <text>欢迎！{{name}}{{num}}</text>
     </view>
     <view class='wrap'>
         

@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-      name: "高英男 ",
+      name: "未登录",
   },
   nclick: function () {
     wx.navigateTo({
@@ -17,7 +17,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+
   },
 
   /**
@@ -31,7 +31,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    var name = wx.getStorageSync("ch-name")
+    if (name) this.setData({
+      name: name,
+    })
   },
 
   /**

@@ -9,8 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    name:"高英男",
-    num:2015060501031,
+    name:"请登录",
+    num:"",
   },
 
   //成绩走向
@@ -366,7 +366,8 @@ Page({
   create_restudy_chart: function(restudy_data){
     var windowWidth = wx.getSystemInfoSync().windowWidth;
 
-    var data = restudy_data.categories.length? restudy_data: this.get_tmp_restudy_data()
+    var data = restudy_data.categories[0] !="d" ? restudy_data: this.get_tmp_restudy_data()
+    console.log(data)
     columnChart = new wxCharts({
       canvasId: 'columnCanvas',
       type: 'column',
@@ -408,8 +409,7 @@ Page({
    */
   onShow: function () {
     var updated = wx.getStorageSync("update_scores")
-    var scores = wx.getStorageSync("scores")
-    if (updated && scores){
+    if (updated){
       var windowWidth = wx.getSystemInfoSync().windowWidth;
       var windowHeight = wx.getSystemInfoSync().windowHeight;
 
@@ -424,6 +424,13 @@ Page({
       this.create_line_chart(line_data)
       this.create_restudy_chart(restudy_data)
       
+      var name = wx.getStorageSync("ch-name")
+      var num = wx.getStorageSync("username")
+      if (name && num)
+        this.setData({
+          name: name + ",",
+          num: num,
+        })
       wx.setStorageSync("update_scores", false)
     }
   },
