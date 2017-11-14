@@ -8,7 +8,7 @@ var CHINESE_NUM = {
   4: "四",
   5: "五",
   6: "六",
-  7: "七",
+  7: "日",
 }
 
 //获取屏幕高度
@@ -60,7 +60,6 @@ Page({
       this.setData({
         courses: courses,
       })
-      console.log(courses)
       var courseList = [];
       for(var index in courses){
           var course = courses[index];
@@ -72,6 +71,7 @@ Page({
           dic["room"] = course.room_name;
           dic["name"] = course.course_name;
           dic["teacher"] = course.teacher_name;
+          dic["week"] = this.get_week_string(course.weeks)
           courseList.push(dic);
           }
       this.setData({
@@ -79,6 +79,26 @@ Page({
       });
       wx.setStorageSync("update_courses", false)
       }
+  },
+  get_week_string(weeks){
+    var continuous = true
+    var str = ""
+    if (weeks.length == 1){
+      return "第" + weeks[0] + "周"
+    }
+    for (var i=1;i<weeks.lenght;i++){
+      if (weeks[i] - weeks[i-1] != 1){
+        continuous = false
+        break
+      }
+    }
+    if (continuous) {
+      str = weeks[0].toString() + "-" + weeks[weeks.length - 1].toString() + "周"
+    } else {
+      var odd = weeks[0] % 2 ? "单" : "双"
+      str = weeks[0].toString() + "-" + weeks[weeks.length - 1].toString() + "周" + odd + "周" 
+    }
+    return str
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

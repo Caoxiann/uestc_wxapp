@@ -25,6 +25,7 @@ Page({
       room: options.room,
       time: options.time,
       teacher: options.teacher,
+      week: options.week,
     })
   },
 
