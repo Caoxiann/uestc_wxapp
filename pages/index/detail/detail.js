@@ -6,25 +6,26 @@ Page({
    */
 
   data: {
-    type:'软件工程及应用',
+    name:'软件工程及应用',
     room:'品学楼A313' ,
     week:'1-16周' ,
     time:'周一3-4节' ,
     teacher:'王玉林'  
   },
-  onLoad: function (option) {
-    this.setData({
-      type: option.type,
-    }),
-      console.log(option.type);
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
 
 
   onLoad: function (options) {
-  
+    console.log(options)
+    this.setData({
+      name: options.name,
+      room: options.room,
+      time: options.time,
+      teacher: options.teacher,
+    })
   },
 
   /**

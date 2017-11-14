@@ -1,7 +1,15 @@
 //index.js
 //获取应用实例
 var app = getApp()
-
+var CHINESE_NUM = {
+  1: "一",
+  2: "二",
+  3: "三",
+  4: "四",
+  5: "五",
+  6: "六",
+  7: "七",
+}
 
 //获取屏幕高度
 var screenHeight = wx.getSystemInfo({
@@ -13,23 +21,19 @@ var screenHeight = wx.getSystemInfo({
 Page({
   data: {
     colorArrays: ["#85B8CF", "#90C652", "#D8AA5A", "#FC9F9D", "#0A9A84", "#61BC69", "#12AEF3", "#E29AAD"],
-    wlist: [
-      { "xqj": 1, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-      { "xqj": 2, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-      { "xqj": 3, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-      { "xqj": 4, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-      { "xqj": 5, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-      { "xqj": 6, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-      { "xqj": 7, "skjc": 1, "skcd": 3, "kcmc": "高等数学@教A-301" },
-    ]
+    wlist: [],
+    courses : [],
   },
-  courses : [],
-
-  showdetail:function(){
+  
+  showdetail: function (e) {
+    var index = e.currentTarget.dataset.index
+    var data = this.data.wlist[index]
+    var time = "周" + CHINESE_NUM[data.xqj] + " " + data.skjc.toString() + "-" + (data.skjc + data.skcd - 1).toString() + "节"
     wx.navigateTo({
-      url: 'detail/detail?type=2'
+      url: 'detail/detail?name=' + data.name + "&room=" + data.room + "&time=" + time + "&teacher=" + data.teacher + "&week=" + data.week
     })
   },
+
   //获取屏幕宽度
   set_screenWidth : function(){
     var that = this;
@@ -53,15 +57,21 @@ Page({
     var courses = wx.getStorageSync("courses")
     var updated = wx.getStorageSync("update_courses")
     if(courses && updated){
-      this.courses = courses
+      this.setData({
+        courses: courses,
+      })
+      console.log(courses)
       var courseList = [];
-      for(var index in this.courses){
-          var course = this.courses[index];
+      for(var index in courses){
+          var course = courses[index];
           var dic = {}
           dic["xqj"] = course.time[0][0];
           dic["skjc"] = course.time[0][1];
           dic["skcd"] = course.time.length;
           dic["kcmc"] = course.course_name + "@" + course.room_name;
+          dic["room"] = course.room_name;
+          dic["name"] = course.course_name;
+          dic["teacher"] = course.teacher_name;
           courseList.push(dic);
           }
       this.setData({

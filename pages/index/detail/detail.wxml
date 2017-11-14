@@ -1,7 +1,7 @@
 <!--pages/index/detail/detail.wxml-->
 <view class='container'>
     <view class='title'>
-        <text class='name'>{{type}}</text>
+        <text class='name'>{{name}}</text>
     </view>
     <view class='detail'>
         <view class='in'><text class='rm'>教室：{{room}}</text></view>
