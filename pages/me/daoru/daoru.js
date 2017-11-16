@@ -10,7 +10,7 @@ Page({
     userPassword: '',
     id_token: '',//方便存在本地的locakStorage  
     response: '' ,//存取返回数据  
-    url : 'http://127.0.0.1:6060'
+    url : 'http://192.168.100.186:6060'
   },
   userNameInput: function (e) {
     this.setData({

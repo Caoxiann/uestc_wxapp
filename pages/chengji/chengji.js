@@ -11,6 +11,13 @@ Page({
   data: {
     name:"请登录",
     num:"",
+    table : {
+      semesters : ["第一学期", "第二学期", "第三学期", "第四学期" , "第五学期"],
+      scores:[{name:"111112312312", credit:"4", score:"85", gpa:"4.0"},
+              {name: "2222", credit: "4", score: "85", gpa: "4.0"},
+              { name: "3333", credit: "4", score: "85", gpa: "4.0" },
+      ]
+    }
   },
 
   //成绩走向
@@ -22,6 +29,17 @@ Page({
         return category + ' ' + item.name + ':' + item.data
       }
     });
+  },
+
+  columnTouchHandler: function(e){
+    columnChart.scrollStart(e)
+  },
+  moveHandler: function (e){
+    columnChart.scroll(e)
+  },
+
+  touchEndHandler: function(e){
+    columnChart.scrollEnd(e)
   },
 
   /**
@@ -58,6 +76,10 @@ Page({
         if(course[8] == "优秀")course[8] = 85
         if(course[8] == "及格")course[8] = 75
         if(course[8] == "不及格")course[8] = 59
+        if (course[8] == "A") course[8] = 85
+        if (course[8] == "B") course[8] = 75
+        if (course[8] == "C") course[8] = 60
+        if (course[8] == "D") course[8] = 50
         GPAs[index] += parseFloat(course[5]) * parseFloat(course[9])
         avgScores[index] += parseFloat(course[5]) * parseFloat(course[8])
         credits[index] += parseFloat(course[5])
@@ -183,6 +205,7 @@ Page({
     var serise = avgScores.length? avgScores : this.get_tmp_series()
     var text = avg_score? avg_score.toFixed(1).toString() : "99"
 
+    console.log()
     var avgChart = new wxCharts({
       animation: true,
       canvasId: 'avgCanvas',
@@ -306,7 +329,6 @@ Page({
       xAxis: {
         disableGrid: true
       },
-
       width: windowWidth,
       height: 200,
       dataLabel: false,
@@ -365,9 +387,7 @@ Page({
 
   create_restudy_chart: function(restudy_data){
     var windowWidth = wx.getSystemInfoSync().windowWidth;
-
-    var data = restudy_data.categories[0] !="d" ? restudy_data: this.get_tmp_restudy_data()
-    console.log(data)
+    var data = restudy_data.categories[0] != "d" ? restudy_data: this.get_tmp_restudy_data()
     columnChart = new wxCharts({
       canvasId: 'columnCanvas',
       type: 'column',
@@ -389,12 +409,19 @@ Page({
 
       extra: {
         column: {
-          width: 24
+          width: 30,
         }
       },
+      enableScroll : true,
       width: windowWidth,
-      height: 200,
+      height: 300,
     });
+  },
+
+  get_semester_course: function(semester){
+    var scores = wx.getStorageSync("scores")
+    if (!scores)return
+    
   },
 
   /**

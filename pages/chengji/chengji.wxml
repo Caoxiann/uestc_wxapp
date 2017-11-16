@@ -21,17 +21,34 @@
             </view>
                 <view class="chart-2">
                 <view class='linename'><text>成绩走向趋势图</text></view>
-                        <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas2" bindtouchstart="touchHandler"></canvas>
+                        <canvas canvas-id="lineCanvas" class="canvas2" bindtouchstart="touchHandler"></canvas>
                 </view>
-
+            <view class='socres-table'>
+                <view class='seme-btns'>
+                <view class='btn' wx:for="{{table.semesters}}">
+                    <button style='font-size:14px'>{{item}}</button>
+                </view>
+               </view>
+                <view class="container">
+                    <view class="table">
+                        <view class="tr">
+                            <view class="th">名称</view>
+                            <view class="th">学分</view>
+                            <view class="th">最终成绩</view>
+                            <view class="th">绩点</view>
+                        </view>
+                        <view class="tr" wx:for="{{table.scores}}">
+                            <view class="td">{{item.name}}</view>
+                            <view class="td">{{item.credit}}</view>
+                            <view class="td">{{item.score}}</view>
+                            <view class="td">{{item.gpa}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
                 <view class="chart-3">
                 <view class='columnname'><text>重修指数排行榜</text></view>
-                        <canvas canvas-id="columnCanvas" class="canvas3" ></canvas>
+                        <canvas canvas-id="columnCanvas" class="canvas3" bindtouchstart='columnTouchHandler' bindtouchmove='moveHandler' bindtouchend='touchEndHandler'></canvas>
                 </view>
-           
-
-          
-
-
     </view>
 </view>
