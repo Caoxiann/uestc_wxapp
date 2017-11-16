@@ -11,13 +11,17 @@ Page({
   data: {
     name:"请登录",
     num:"",
-    table : {
-      semesters : ["第一学期", "第二学期", "第三学期", "第四学期" , "第五学期"],
-      scores:[{name:"111112312312", credit:"4", score:"85", gpa:"4.0"},
-              {name: "2222", credit: "4", score: "85", gpa: "4.0"},
-              { name: "3333", credit: "4", score: "85", gpa: "4.0" },
-      ]
-    }
+    semesters: ["第一学期", "第二学期"],
+    all_scores: [
+      [{ name: "111", credit: "4", score: "85", gpa: "4.0" },
+      { name: "111112312312", credit: "4", score: "85", gpa: "4.0" },
+      { name: "111112312312", credit: "4", score: "85", gpa: "4.0" },
+      ],
+      [{ name: "222", credit: "4", score: "85", gpa: "4.0" },
+        { name: "222", credit: "4", score: "85", gpa: "4.0" },
+        { name: "222", credit: "4", score: "85", gpa: "4.0" },]
+      ],
+    table_data : []
   },
 
   //成绩走向
@@ -412,16 +416,50 @@ Page({
           width: 30,
         }
       },
-      enableScroll : true,
       width: windowWidth,
       height: 300,
     });
   },
 
-  get_semester_course: function(semester){
+  set_all_semester_scores: function(){
     var scores = wx.getStorageSync("scores")
-    if (!scores)return
+    if (!scores){
+      var all = this.data.all_scores
+      this.setData({
+        table_data: all[0]
+      })
+      return
+    }
     
+    var all_scores = []
+    for (var index in scores){
+      var semes = []
+      for (var i in scores[index]){
+        var course = scores[index][i]
+        var c = {
+          name:course[3],
+          credit:course[5],
+          score:course[8],
+          gpa:course[9],
+        }
+        semes.push(c)
+      }
+      all_scores.push(semes)
+    }
+    this.setData({
+      all_scores: all_scores,
+      table_data: all_scores[0]
+    })
+    
+  },
+
+  chooseSemester: function(e){
+    console.log(e)
+    var all = this.data.all_scores;
+    this.setData({
+      table_data: all[e.target.id]
+    })
+
   },
 
   /**
@@ -450,6 +488,8 @@ Page({
       this.create_credit_chart(pie_chart_data.credits, pie_chart_data.sum_credits)
       this.create_line_chart(line_data)
       this.create_restudy_chart(restudy_data)
+
+      this.set_all_semester_scores()
       
       var name = wx.getStorageSync("ch-name")
       var num = wx.getStorageSync("username")
