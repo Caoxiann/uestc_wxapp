@@ -432,8 +432,10 @@ Page({
     }
     
     var all_scores = []
+    var semesters = []
     for (var index in scores){
       var semes = []
+      semesters[index] = '第' + (parseInt(index) + 1).toString() + '学期'
       for (var i in scores[index]){
         var course = scores[index][i]
         var c = {
@@ -448,7 +450,8 @@ Page({
     }
     this.setData({
       all_scores: all_scores,
-      table_data: all_scores[0]
+      table_data: all_scores[all_scores.length-1],
+      semesters: semesters,
     })
     
   },

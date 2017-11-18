@@ -10,7 +10,7 @@ Page({
     userPassword: '',
     id_token: '',//方便存在本地的locakStorage  
     response: '' ,//存取返回数据  
-    url : 'http://192.168.100.186:6060'
+    url: "https://dev.chenyea.com"
   },
   userNameInput: function (e) {
     this.setData({
@@ -56,7 +56,7 @@ Page({
           wx.hideLoading();
           wx.showModal({
             title: '登录失败',
-            content: '请检查用户名和密码',
+            content: res.data,
           })
         }
       },
@@ -66,7 +66,7 @@ Page({
         wx.hideLoading();
         wx.showModal({
           title: '登录失败',
-          content: '请检查用户名和密码',
+          content: res.data,
         })
       }
     })
