@@ -26,7 +26,7 @@
             <view class='socres-table'>
                 <view class='seme-btns'>
                 <view class='btn' wx:for="{{semesters}}">
-                    <button style='font-size:14px' bindtap='chooseSemester' id="{{index}}">{{item}}</button>
+                    <button style='font-size:14px ' bindtap='chooseSemester' id="{{index}}">{{item}}</button>
                 </view>
                </view>
                 <view class="container">

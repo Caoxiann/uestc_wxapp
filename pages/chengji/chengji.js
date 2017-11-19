@@ -184,7 +184,7 @@ Page({
       title: {
         name: text,
         color: '#7cb5ec',
-        fontSize: 18
+        fontSize: 15
       },
       subtitle: {
         name: 'GPA',
@@ -218,7 +218,7 @@ Page({
       title: {
         name: text,
         color: '#7cb5ec',
-        fontSize: 18
+        fontSize: 15
       },
       subtitle: {
         name: '平均分',
@@ -251,7 +251,7 @@ Page({
       title: {
         name: text,
         color: '#7cb5ec',
-        fontSize: 18
+        fontSize: 15
       },
       subtitle: {
         name: '总学分',
