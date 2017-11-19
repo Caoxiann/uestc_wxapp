@@ -1,6 +1,9 @@
 // pages/cehngji/chengji.js
 var wxCharts = require('wxcharts-min.js');
 var app = getApp();
+var gpaChart = null;
+var avgChart = null;
+var credit_chart;
 var lineChart = null;
 var columnChart = null;
 
@@ -26,13 +29,15 @@ Page({
 
   //成绩走向
   touchHandler: function (e) {
-    console.log(lineChart.getCurrentDataIndex(e));
-    lineChart.showToolTip(e, {
-      // background: '#7cb5ec',
-      format: function (item, category) {
-        return category + ' ' + item.name + ':' + item.data
-      }
-    });
+    if(e.target.id == "chart4"){
+      lineChart.showToolTip(e, {
+        // background: '#7cb5ec',
+        format: function (item, category) {
+          return category + ' ' + item.name + ':' + item.data
+        }
+      });
+    }
+    
   },
 
   columnTouchHandler: function(e){
@@ -176,7 +181,7 @@ Page({
     var series = GPAs.length ? GPAs : this.get_tmp_series()
     var text = avg_GPA ? avg_GPA.toFixed(2).toString() : "99"
 
-    var gpaChart = new wxCharts({
+    gpaChart = new wxCharts({
       animation: true,
       canvasId: 'gpaCanvas',
       type: 'ring',
@@ -209,8 +214,7 @@ Page({
     var serise = avgScores.length? avgScores : this.get_tmp_series()
     var text = avg_score? avg_score.toFixed(1).toString() : "99"
 
-    console.log()
-    var avgChart = new wxCharts({
+    avgChart = new wxCharts({
       animation: true,
       canvasId: 'avgCanvas',
       type: 'ring',
@@ -243,7 +247,7 @@ Page({
     var serise = credits.length ? credits : this.get_tmp_series()
     var text = sum_credits ? sum_credits.toFixed(1).toString() : "99"
 
-    var credit_chart = new wxCharts({
+    credit_chart = new wxCharts({
       animation: true,
       canvasId: 'allCanvas',
       type: 'ring',
