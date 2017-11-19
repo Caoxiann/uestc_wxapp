@@ -6,7 +6,4 @@
     <view class='kebiao'>
         <text  class='choose'  bindtap='nclick'>导入课表、成绩</text>
     </view>
-    <view class='exit'>
-        <text class='choose'>退出登录</text>
-    </view>
 </view>
