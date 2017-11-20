@@ -16,13 +16,13 @@ Page({
     num:"",
     semesters: ["第一学期", "第二学期"],
     all_scores: [
-      [{ name: "111", credit: "4", score: "85", gpa: "4.0" },
-      { name: "111112312312", credit: "4", score: "85", gpa: "4.0" },
-      { name: "111112312312", credit: "4", score: "85", gpa: "4.0" },
+      [{ name: "微积分", credit: "4", score: "85", gpa: "4.0" },
+      { name: "高等数学", credit: "4", score: "85", gpa: "4.0" },
+      { name: "大学物理1", credit: "4", score: "85", gpa: "4.0" },
       ],
-      [{ name: "222", credit: "4", score: "85", gpa: "4.0" },
-        { name: "222", credit: "4", score: "85", gpa: "4.0" },
-        { name: "222", credit: "4", score: "85", gpa: "4.0" },]
+      [{ name: "大学物理2", credit: "4", score: "85", gpa: "4.0" },
+        { name: "计算机网络", credit: "4", score: "85", gpa: "4.0" },
+        { name: "数据库原理", credit: "4", score: "85", gpa: "4.0" },]
       ],
     table_data : []
   },
