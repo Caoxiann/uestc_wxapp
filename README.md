@@ -1,6 +1,8 @@
 # Aragaki的课表成绩查询
  电子科大专属的课程表和学习成绩查询微信小程序  
  <div align=center><img width="150" height="150" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/bird.png?raw=true"/></div>  
+## 状态
+版本1.12已提交微信小程序平台，正在审核中...
  
 ## 特点
 - 界面简洁美观 —— 抛弃同类产品臃肿繁琐的界面，回归最简朴的课程表工具
