@@ -1,6 +1,7 @@
-<div align=center><img width="150" height="150" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/bird.png?raw=true"/></div>
 # Aragaki的课表成绩查询
  电子科大专属的课程表和学习成绩查询微信小程序  
+ <div align=center><img width="150" height="150" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/bird.png?raw=true"/></div>  
+ 
 ## 特点
 - 界面简洁美观 —— 抛弃同类产品臃肿繁琐的界面，回归最简朴的课程表工具
 - 功能方便易用 —— 一键导入课程表成绩，只需信息门户账号密码，无需重新注册
@@ -18,15 +19,15 @@
 
 ## Example
 * 首次使用，打开导入页面一键导入课程表和历史成绩  
-	<div align=center><img width="512" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/1.gif?raw=true"/></div>
+	<div align=center><img width="350" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/1.gif?raw=true"/></div>
 * 下次使用，直接打开小程序，直接查看已导入的课表和成绩  
-	<div align=center><img width="512" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/2.gif?raw=true"/></div>
+	<div align=center><img width="350" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/2.gif?raw=true"/></div>
 * 点击课程表某个课程，显示课程的详细信息  
-	<div align=center><img width="512" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/3.gif?raw=true"/></div>
+	<div align=center><img width="350" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/3.gif?raw=true"/></div>
 * 点击成绩界面，显示各学期成绩数据  
-	<div align=center><img width="512" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/4.gif?raw=true"/></div>
+	<div align=center><img width="350" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/4.gif?raw=true"/></div>
 * 点击学期切换按钮，切换各学期成绩  
-	<div align=center><img width="512" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/5.gif?raw=true"/></div>
+	<div align=center><img width="350" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/5.gif?raw=true"/></div>
 
 ## 更多功能请期待
 * 考试时间倒计时：自动导入考试时间，对考试进行倒计时
