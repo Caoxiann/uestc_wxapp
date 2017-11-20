@@ -9,13 +9,13 @@
             <view class='small'>
                 <view class='chart-1'>
                     
-                        <canvas canvas-id="gpaCanvas" class="canvas1" bindtouchstart="touchHandler" id="chart1"></canvas>
+                        <canvas canvas-id="gpaCanvas" class="canvas1"></canvas>
                    
                   
-                        <canvas canvas-id="avgCanvas" class="canvas1" bindtouchstart="touchHandler" id="chart2"></canvas>
+                        <canvas canvas-id="avgCanvas" class="canvas1"></canvas>
                    
                    
-                        <canvas canvas-id="allCanvas" class="canvas1" bindtouchstart="touchHandler" id="chart3"></canvas>
+                        <canvas canvas-id="allCanvas" class="canvas1"></canvas>
                   
                 </view>
             </view>

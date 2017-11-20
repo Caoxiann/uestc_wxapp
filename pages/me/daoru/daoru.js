@@ -56,7 +56,7 @@ Page({
           wx.hideLoading();
           wx.showModal({
             title: '登录失败',
-            content: res.data,
+            content: "请检查用户名和密码",
           })
         }
       },
@@ -66,7 +66,7 @@ Page({
         wx.hideLoading();
         wx.showModal({
           title: '登录失败',
-          content: res.data,
+          content: "网络错误",
         })
       }
     })
@@ -96,7 +96,7 @@ Page({
           wx.hideLoading();
           wx.showModal({
             title: '获取成绩失败.',
-            content: '请稍后再试',
+            content: '网络错误',
           })
         }
       })
@@ -136,7 +136,7 @@ Page({
         console.log("Get course failed.")
         wx.showModal({
           title: '获取课表失败.',
-          content: '请稍后再试',
+          content: '网络错误',
         })
       }
   })

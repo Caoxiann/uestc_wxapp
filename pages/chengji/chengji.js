@@ -29,15 +29,12 @@ Page({
 
   //成绩走向
   touchHandler: function (e) {
-    if(e.target.id == "chart4"){
-      lineChart.showToolTip(e, {
-        // background: '#7cb5ec',
-        format: function (item, category) {
-          return category + ' ' + item.name + ':' + item.data
+    lineChart.showToolTip(e, {
+      // background: '#7cb5ec',
+      format: function (item, category) {
+        return category + ' ' + item.name + ':' + item.data
         }
-      });
-    }
-    
+    })
   },
 
   columnTouchHandler: function(e){
