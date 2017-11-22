@@ -4,7 +4,7 @@
 	
 ## 状态
 版本1.12已在微信小程序平台上架，欢迎大家扫码试用:  
-<div align=center><img width="150" height="150" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/wxapp_code.png?raw=true"/></div>   
+<div align=center><img width="150" height="150" src="https://github.com/Caoxiann/uestc_wxapp/blob/master/docs/wxapp_code.jpg?raw=true"/></div>   
  
 ## 特点
 - 界面简洁美观 —— 抛弃同类产品臃肿繁琐的界面，回归最简朴的课程表工具
