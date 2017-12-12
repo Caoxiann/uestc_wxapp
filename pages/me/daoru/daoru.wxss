@@ -1,7 +1,7 @@
 /* pages/me/daoru/daoru.wxss */
 
 .title{
-  margin: 80rpx 0;
+  margin: 40rpx 0;
 }
 input{
   height: 72rpx;

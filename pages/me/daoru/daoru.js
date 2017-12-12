@@ -10,7 +10,7 @@ Page({
     userPassword: '',
     id_token: '',//方便存在本地的locakStorage  
     response: '' ,//存取返回数据  
-    url: "https://dev.chenyea.com"
+    url: "https://wxapp.hoynechan.cn"
   },
   userNameInput: function (e) {
     this.setData({
@@ -106,7 +106,7 @@ Page({
   get_courses: function(semester){
     var that = this;
     wx.request({
-      url: this.data.url + '/getcourse?username=' + this.data.userName + '&semester=' + 'semester',
+      url: this.data.url + '/getcourse?username=' + this.data.userName + '&semester=' + '2015-2016-1',
       method: 'GET',
       success: function (res) {
         console.log('Get courses success.')
