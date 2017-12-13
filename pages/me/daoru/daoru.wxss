@@ -1,7 +1,10 @@
 /* pages/me/daoru/daoru.wxss */
-
+.usermotto{
+  position: relative;
+  top: -60px;
+}
 .title{
-  margin: 40rpx 0;
+  margin: 80rpx 0;
 }
 input{
   height: 72rpx;

@@ -1,4 +1,5 @@
 // pages/me/daoru/daoru.js
+var util = require('../../../utils/util.js')
 Page({
 
   /**
@@ -10,7 +11,10 @@ Page({
     userPassword: '',
     id_token: '',//方便存在本地的locakStorage  
     response: '' ,//存取返回数据  
-    url: "https://wxapp.hoynechan.cn"
+    url: "https://wxapp.hoynechan.cn",
+    semesters_array: [],
+    selected_index: 1,
+    semester: '',
   },
   userNameInput: function (e) {
     this.setData({
@@ -25,7 +29,6 @@ Page({
   daoru: function () {
     var that = this
     console.log("daoru")
-    console.log(this.data.userPassword)
     wx.showLoading({
       title: '正在载入',
       mask:true,
@@ -105,8 +108,10 @@ Page({
 
   get_courses: function(semester){
     var that = this;
+    var semester = this.data.semester
+    console.log(semester)
     wx.request({
-      url: this.data.url + '/getcourse?username=' + this.data.userName + '&semester=' + '2015-2016-1',
+      url: this.data.url + '/getcourse?username=' + this.data.userName + '&semester=' + semester,
       method: 'GET',
       success: function (res) {
         console.log('Get courses success.')
@@ -154,6 +159,15 @@ Page({
     })
   },
 
+  pickerChange: function(e){
+    var semesters = this.data.semesters_array
+    var index = e.detail.value
+    this.setData({
+      selected_index: index,
+      semester: semesters[index]
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -167,6 +181,30 @@ Page({
         'userPassword':password,
       })
     }
+    
+    var date = new Date()
+    var year = date.getFullYear()
+    var month = date.getMonth() + 1
+    var semes = 1
+    if (month < 8){
+      semes = 2
+      year -= 1
+    } 
+    // var semester = year.toString() + '-' + (year+1).toString() + '-' + semes.toString()
+    var i = 0
+    var semesters = []
+    if(month<8)i=-1
+    for(i;i<5;i++){
+      var y = year - i
+      var semester_2 = y.toString() + '-' + (y + 1).toString() + '-2'
+      var semester_1 = y.toString() + '-' + (y + 1).toString() + '-1'
+      if(i!=-1)semesters.push(semester_2)
+      semesters.push(semester_1)
+    }
+    this.setData({
+      semesters_array: semesters,
+      semester: semesters[1],
+    })
   },
 
   /**
